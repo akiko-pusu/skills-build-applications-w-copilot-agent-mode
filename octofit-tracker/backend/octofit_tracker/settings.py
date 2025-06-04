@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'octofit_db',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb://localhost:27017',
+            'host': 'mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/octofit_db?retryWrites=true&w=majority',
         }
     }
 }
