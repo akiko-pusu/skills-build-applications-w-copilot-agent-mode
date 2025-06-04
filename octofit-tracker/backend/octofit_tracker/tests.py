@@ -1,5 +1,7 @@
 from django.test import TestCase
 from .models import User, Team, Activity, Leaderboard, Workout
+from bson import ObjectId
+from datetime import datetime
 
 class UserModelTest(TestCase):
     def test_create_user(self):
@@ -8,18 +10,19 @@ class UserModelTest(TestCase):
 
 class TeamModelTest(TestCase):
     def test_create_team(self):
-        team = Team.objects.create(name='Team A')
+        user = User.objects.create(email='teamuser@example.com', name='Team User', password='pass')
+        team = Team.objects.create(name='Team A', members=[user._id])
         self.assertEqual(team.name, 'Team A')
 
 class ActivityModelTest(TestCase):
     def test_create_activity(self):
-        user = User.objects.create(email='test2@example.com', name='Test2', password='testpass')
-        activity = Activity.objects.create(user=user, activity_type='run', duration=30, date='2025-05-27T00:00:00Z')
+        user = User.objects.create(email='activityuser@example.com', name='Activity User', password='pass')
+        activity = Activity.objects.create(user=user, activity_type='run', duration=30, date=datetime.now())
         self.assertEqual(activity.activity_type, 'run')
 
 class LeaderboardModelTest(TestCase):
     def test_create_leaderboard(self):
-        team = Team.objects.create(name='Team B')
+        team = Team.objects.create(name='Team B', members=[])
         leaderboard = Leaderboard.objects.create(team=team, points=100)
         self.assertEqual(leaderboard.points, 100)
 
